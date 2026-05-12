@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
+  <script src="https://cdn.tailwindcss.com">// Simple chatbot logic
+function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const box = document.getElementById("chatBox");
+
+  if(!input.value) return;
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "bg-sky-500/20 p-2 rounded self-end";
+  userMsg.textContent = input.value;
+
+  box.appendChild(userMsg);
+
+  setTimeout(() => {
+    const botMsg = document.createElement("div");
+    botMsg.className = "bg-slate-800 p-2 rounded self-start";
+    botMsg.textContent = "Thanks! We'll contact you soon.";
+    box.appendChild(botMsg);
+    box.scrollTop = box.scrollHeight;
+  }, 600);
+
+  input.value = "";
+  box.scrollTop = box.scrollHeight;
+}
+</script>
+  <style>
+    body {
+      cursor: auto;
+      background: radial-gradient(circle at 20% 20%, #1e293b, #020617);
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+        body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(56,189,248,0.08), transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes moveGrid {
+      from { transform: translate(0,0); }
+      to { transform: translate(25px,25px); }
+    }
+
+    .section-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(90deg, rgba(56,189,248,0.25), transparent);
+      filter: blur(60px);
+      z-index: -1;
+    }
+
+    /* Smooth Cursor */
+    .cursor {
+      width: 28px;
+      height: 28px;
+      position: fixed;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      border: 2px solid rgba(56,189,248,0.8);
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease;
+      will-change: transform;
+    }
+
+    .cursor::after {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.2), transparent 70%);
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    .cursor.active {
+      transform: translate(-50%, -50%) scale(1.4);
+      box-shadow: 0 0 14px rgba(56,189,248,0.7);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .glass {
+      position: relative;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      transition: transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease;
+      will-change: transform;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.9s cubic-bezier(.22,1,.36,1);
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Smooth Glow + Lift */
+    .glass:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(56,189,248,0.18), 0 0 25px rgba(56,189,248,0.25);
+    }
+
+    /* Reduce header hover effect */
+    header.glass:hover {
+      transform: translateY(-2px) scale(1.005);
+      box-shadow: 0 6px 15px rgba(56,189,248,0.1);
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(56,189,248,0.3), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .glass:hover::before {
+      opacity: 1;
+    }
+
+    .magnetic {
+      display: inline-block;
+      transition: transform 0.25s cubic-bezier(.22,1,.36,1);
+    }
+
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<header class="fixed w-full top-0 z-50 glass">
+  <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+    <h1 class="text-xl font-bold">AI Chatbot</h1>
+    <nav class="space-x-6 hidden md:block">
+      <a href="#features" class="hover:text-sky-400">Features</a>
+      <a href="#pricing" class="hover:text-sky-400">Pricing</a>
+      <a href="#contact" class="hover:text-sky-400">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="min-h-[60vh] flex items-center justify-center text-center px-4 relative pt-14 pb-4">
+  <div class="section-accent"></div>
+  <div class="fade-up">
+    <h2 class="text-5xl font-bold mb-4">Your Smart AI Assistant</h2>
+    <p class="text-lg text-gray-400 mb-6">Automate conversations. Boost your business.</p>
+    <button class="magnetic px-6 py-3 bg-sky-500 rounded-lg hover:bg-sky-600 transition">Get Started</button>
+  </div>
+</section>
+
+<!-- Hero Preview UI -->
+<section class="px-6 pb-10">
+  <div class="max-w-5xl mx-auto glass p-6 fade-up">
+    <div class="flex flex-col gap-3">
+      <div class="bg-slate-800 p-3 rounded-lg w-fit">Hi, how can I help you?</div>
+      <div class="bg-sky-500/20 p-3 rounded-lg w-fit ml-auto">I want to know pricing</div>
+      <div class="bg-slate-800 p-3 rounded-lg w-fit">We offer Basic, Pro, and Enterprise plans.</div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="py-14 px-6 relative">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 relative z-10">
+    <div class="glass p-5 fade-up">
+      <h3 class="text-xl font-semibold mb-2">24/7 Support</h3>
+      <p>Never miss a customer with always-on AI responses.</p>
+    </div>
+    <div class="glass p-5 fade-up">
+      <h3 class="text-xl font-semibold mb-2">Easy Integration</h3>
+      <p>Works seamlessly with your website or apps.</p>
+    </div>
+    <div class="glass p-5 fade-up">
+      <h3 class="text-xl font-semibold mb-2">Smart Learning</h3>
+      <p>Continuously improves from conversations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-14 px-6">
+  <h2 class="text-3xl font-bold text-center mb-10">Trusted by Businesses</h2>
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+    <div class="glass p-5 fade-up">"This chatbot boosted our leads by 40%!"</div>
+    <div class="glass p-5 fade-up">"Super easy to integrate and use."</div>
+    <div class="glass p-5 fade-up">"Best investment for our business."</div>
+  </div>
+</section>
+
+<section id="pricing" class="py-14 px-6 relative">
+  
+  <h2 class="text-3xl font-bold text-center mb-10 relative z-10">Pricing</h2>
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+
+    <div class="glass p-5 text-center fade-up">
+      <h3 class="text-2xl font-bold mb-2">Basic</h3>
+      <p class="text-3xl mb-4">₹499/mo</p>
+      <button class="magnetic bg-sky-500 px-4 py-2 rounded">Choose</button>
+    </div>
+
+    <div class="glass p-5 text-center fade-up border border-sky-400 relative">
+      <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-sky-500 text-xs px-3 py-1 rounded-full">Most Popular</div>
+      <h3 class="text-2xl font-bold mb-2">Pro</h3>
+      <p class="text-3xl mb-4">₹999/mo</p>
+      <button class="magnetic bg-sky-500 px-4 py-2 rounded">Choose</button>
+    </div>
+
+    <div class="glass p-5 text-center fade-up">
+      <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+      <p class="text-3xl mb-4">Custom</p>
+      <button class="magnetic bg-sky-500 px-4 py-2 rounded">Contact</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 text-center relative">
+  <div class="section-accent"></div>
+  <h2 class="text-4xl font-bold mb-4">Start Automating Your Business Today</h2>
+  <p class="text-gray-400 mb-6">Join businesses using AI to grow faster.</p>
+  <button class="magnetic px-8 py-3 bg-sky-500 rounded-lg">Get Started Now</button>
+</section>
+
+<!-- Interactive Chatbot Demo -->
+<section class="py-20 px-6">
+  <h2 class="text-3xl font-bold text-center mb-10">Live Chat Demo</h2>
+  <div class="max-w-xl mx-auto glass p-4">
+    <div id="chatBox" class="h-64 overflow-y-auto flex flex-col gap-2 mb-3"></div>
+    <div class="flex gap-2">
+      <input id="chatInput" class="flex-1 p-2 rounded bg-slate-800" placeholder="Type a message..." />
+      <button onclick="sendMessage()" class="magnetic bg-sky-500 px-4 rounded">Send</button>
+    </div>
+  </div>
+</section>
+
+<!-- WhatsApp Integration Showcase -->
+<section class="py-20 text-center">
+  <h2 class="text-3xl font-bold mb-6">WhatsApp Integration</h2>
+  <p class="text-gray-400 mb-4">Connect your chatbot directly to WhatsApp and reply instantly to customers.</p>
+  <div class="glass inline-block px-6 py-3">Auto-replies • Lead capture • 24/7 support</div>
+</section>
+
+<!-- Lead Capture Form -->
+<section class="py-20 px-6">
+  <h2 class="text-3xl font-bold text-center mb-10">Get Your AI Chatbot</h2>
+  <div class="max-w-xl mx-auto glass p-6">
+    <form class="flex flex-col gap-4">
+      <input class="p-3 rounded bg-slate-800" placeholder="Your Name" />
+      <input class="p-3 rounded bg-slate-800" placeholder="Email" />
+      <input class="p-3 rounded bg-slate-800" placeholder="Business Type" />
+      <button class="magnetic bg-sky-500 py-3 rounded">Submit</button>
+    </form>
+  </div>
+</section>
+
+<section id="contact" class="py-14 text-center relative">
+  <div class="section-accent"></div>
+  <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+  <p class="text-gray-400">ai@chatbot.com</p>
+</section>
+
+<script>
+const cursor = document.getElementById("cursor");
+let mouseX = 0, mouseY = 0;
+let posX = 0, posY = 0;
+
+// Smooth cursor follow (lerp)
+document.addEventListener("mousemove", e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animateCursor() {
+  posX += (mouseX - posX) * 0.3;
+  posY += (mouseY - posY) * 0.3;
+
+  cursor.style.left = posX + "px";
+  cursor.style.top = posY + "px";
+
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Hover state
+document.querySelectorAll("a, button").forEach(el => {
+  el.addEventListener("mouseenter", () => cursor.classList.add("active"));
+  el.addEventListener("mouseleave", () => cursor.classList.remove("active"));
+});
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add("show");
+    }
+  });
+});
+
+document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+
+// Cursor glow follow inside cards
+document.querySelectorAll(".glass").forEach(card => {
+  card.addEventListener("mousemove", e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty("--x", x + "px");
+    card.style.setProperty("--y", y + "px");
+  });
+});
+
+// Smooth magnetic buttons
+document.querySelectorAll(".magnetic").forEach(btn => {
+  let x = 0, y = 0;
+
+  btn.addEventListener("mousemove", e => {
+    const rect = btn.getBoundingClientRect();
+    x = (e.clientX - rect.left - rect.width / 2) * 0.25;
+    y = (e.clientY - rect.top - rect.height / 2) * 0.25;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+  });
+
+  btn.addEventListener("mouseleave", () => {
+    btn.style.transform = "translate(0,0)";
+  });
+});
+</script>
+
+</body>
+</html>
